@@ -3,7 +3,7 @@ set -e
 
 echo "==================== Minecraft Server Create Start! ===================="
 
-echo -n "Server name (Default: minecraft-server): "
+echo -n "Server name (Default: ydak): "
 read -r server_name
 
 echo -n "Game mode (Default: survival) [survival or creative or adventure]: "
@@ -91,7 +91,7 @@ external_ip=$(gcloud compute instances create minecraft \
 mkdir /var/minecraft && \
 cd /var/minecraft/ && \
 docker volume create mc-volume && \
-docker run -d -it --name mc-server --restart=always -e EULA=TRUE -e GAMEMODE=${game_mode:-survival} -e DIFFICULTY=${difficulty:-normal} -e ALLOW_CHEATS=${allow_cheat:-false} -e DEFAULT_PLAYER_PERMISSION_LEVEL=${permission:-member} -e LEVEL_SEED=$seed -p 19132:19132/udp -v mc-volume:/data itzg/minecraft-bedrock-server:latest
+docker run -d -it --name mc-server --restart=always -e EULA=TRUE -e SERVER_NAME=${server_name:-ydak} -e GAMEMODE=${game_mode:-survival} -e DIFFICULTY=${difficulty:-normal} -e ALLOW_CHEATS=${allow_cheat:-false} -e DEFAULT_PLAYER_PERMISSION_LEVEL=${permission:-member} -e LEVEL_SEED=$seed -p 19132:19132/udp -v mc-volume:/data itzg/minecraft-bedrock-server:latest
 " | jq -r '.[].networkInterfaces[0].accessConfigs[0].natIP')
 
 echo "==================== All Done!! Wait for 3 minutes and access the minecraft! ===================="
