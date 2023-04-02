@@ -58,7 +58,7 @@ mkdir /var/minecraft && \
 cd /var/minecraft/ && \
 docker volume create mc-volume && \
 docker run -d -it --name mc-server -e EULA=TRUE -p 19132:19132/udp -v mc-volume:/data itzg/minecraft-bedrock-server
-" | jq -r '.[].networkInterfaces.accessConfigs.natIP')
+" | jq -r '.[].networkInterfaces[0].accessConfigs[0].natIP')
 
 echo "All Done!! Wait for 5 minutes and access the minecraft!"
 
