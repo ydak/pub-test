@@ -5,31 +5,44 @@ set -e
 
 echo "========== Minecraft Server Create Start! =========="
 
-
-echo -n "Please enter your server name (Default: minecraft-server): "
+echo -n "Server name (Default: minecraft-server): "
 read -r server_name
 
-echo -n "Please enter game mode (Default: survival) [survival or creative or adventure]: "
+echo -n "Game mode (Default: survival) [survival or creative or adventure]: "
 read -r game_mode
 
 if [ "$game_mode" != "survival" ] && [ "$game_mode" != "creative" ] && [ "$game_mode" != "adventure" ]; then
-  echo "enter correct game mode [survival] or [creative] or [adventure]."
+  echo "Enter correct game mode [survival] or [creative] or [adventure]."
   exit 1
 fi
 
-exit 0
-
-echo -n "Please enter difficulty (Default: normal) [peaceful or easy or normal or hard]: "
+echo -n "Difficulty (Default: normal) [peaceful or easy or normal or hard]: "
 read -r difficulty
+if [ "$difficulty" != "peaceful" ] && [ "$difficulty" != "easy" ] && [ "$difficulty" != "normal" ] && [ "$difficulty" != "hard" ]; then
+  echo "Enter correct game mode [peaceful] or [easy] or [normal] or [hard]."
+  exit 1
+fi
 
 echo -n "Allow cheat? (Default: no) [yes or no]: "
 read -r allow_cheat
+if [ "$allow_cheat" != "yes" ] && [ "$allow_cheat" != "no" ]; then
+  echo "Enter allow cheat [yes] or [no]"
+  exit 1
+fi
 
 echo -n "Default member permission (Default: member) [visitor or member or operator]: "
 read -r permission
+if [ "$permission" != "yes" ] && [ "$permission" != "no" ]; then
+  echo "Enter correct permission [visitor] or [member] or [operator]"
+  exit 1
+fi
 
-echo -n "Enter seed (Default: random): "
+echo -n "Seed (Default: random): "
 read -r seed
+if [[ ! ("$seed" =~ ^[-0-9][0-9]+$) ]]; then
+  echo "Enter correct number for seed."
+  exit 1
+fi
 
 project_id=$(gcloud projects list --format="json" | jq -r '.[].projectId')
 project_num=$(gcloud projects list --format="json" | jq -r '.[].projectNumber')
