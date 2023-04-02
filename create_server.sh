@@ -10,7 +10,6 @@ read -r server_name
 
 echo -n "Game mode (Default: survival) [survival or creative or adventure]: "
 read -r game_mode
-
 if [ "$game_mode" != "survival" ] && [ "$game_mode" != "creative" ] && [ "$game_mode" != "adventure" ]; then
   echo "Enter correct game mode [survival] or [creative] or [adventure]."
   exit 1
@@ -23,10 +22,10 @@ if [ "$difficulty" != "peaceful" ] && [ "$difficulty" != "easy" ] && [ "$difficu
   exit 1
 fi
 
-echo -n "Allow cheat? (Default: no) [yes or no]: "
+echo -n "Allow cheat? (Default: false) [true or false]: "
 read -r allow_cheat
-if [ "$allow_cheat" != "yes" ] && [ "$allow_cheat" != "no" ]; then
-  echo "Enter allow cheat [yes] or [no]"
+if [ "$allow_cheat" != "true" ] && [ "$allow_cheat" != "false" ]; then
+  echo "Enter allow cheat [true] or [false]"
   exit 1
 fi
 
@@ -90,7 +89,7 @@ external_ip=$(gcloud compute instances create minecraft \
 mkdir /var/minecraft && \
 cd /var/minecraft/ && \
 docker volume create mc-volume && \
-docker run -d -it --name mc-server --restart=always -e EULA=TRUE -e GAMEMODE=$game_mode -e DIFFICULTY=$difficulty -e ALLOW_CHEATS=$allow_cheat -e DEFAULT_PLAYER_PERMISSION_LEVEL=$permission -e LEVEL_SEED=$seed -p 19132:19132/udp -v mc-volume:/data itzg/minecraft-bedrock-server:latest
+docker run -d -it --name mc-server --restart=always -e EULA=TRUE -e GAMEMODE=${game_mode:-survival} -e DIFFICULTY=${difficulty:-normal} -e ALLOW_CHEATS=${allow_cheat:-false} -e DEFAULT_PLAYER_PERMISSION_LEVEL=${permission:-member} -e LEVEL_SEED=$seed -p 19132:19132/udp -v mc-volume:/data itzg/minecraft-bedrock-server:latest
 " | jq -r '.[].networkInterfaces[0].accessConfigs[0].natIP')
 
 echo "Your minecraft ip is [$external_ip]"
