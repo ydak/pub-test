@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-# sudo journalctl -u google-startup-scripts.service
-# gcloud compute ssh --zone "us-west1-b" "minecraft" --command="docker pull itzg/minecraft-bedrock-server:latest && docker restart mc-server"
 set -e
 
 echo "==================== Minecraft Server Create Start! ===================="
@@ -57,15 +55,15 @@ fw_minecraft=$(gcloud compute firewall-rules list --format="json" | jq -r '.[] |
 if [ -z "$fw_minecraft" ]; then
   echo "Firewall minecraft is not found. Creating Firewall for Minecraft ..."
   gcloud compute --project="$project_id" \
-  firewall-rules create minecraft \
-  --description=minecraft \
-  --direction=INGRESS \
-  --priority=1000 \
-  --network=default \
-  --action=ALLOW \
-  --rules=tcp:19132,udp:19132 \
-  --source-ranges=0.0.0.0/0 \
-  --target-tags=minecraft
+    firewall-rules create minecraft \
+    --description=minecraft \
+    --direction=INGRESS \
+    --priority=1000 \
+    --network=default \
+    --action=ALLOW \
+    --rules=tcp:19132,udp:19132 \
+    --source-ranges=0.0.0.0/0 \
+    --target-tags=minecraft
 fi
 echo "Firewall creation done."
 
@@ -96,12 +94,8 @@ docker volume create mc-volume && \
 docker run -d -it --name mc-server --restart=always -e EULA=TRUE -e GAMEMODE=${game_mode:-survival} -e DIFFICULTY=${difficulty:-normal} -e ALLOW_CHEATS=${allow_cheat:-false} -e DEFAULT_PLAYER_PERMISSION_LEVEL=${permission:-member} -e LEVEL_SEED=$seed -p 19132:19132/udp -v mc-volume:/data itzg/minecraft-bedrock-server:latest
 " | jq -r '.[].networkInterfaces[0].accessConfigs[0].natIP')
 
+echo "==================== All Done!! Wait for 3 minutes and access the minecraft! ===================="
+
 echo "##########################################################################"
 echo "You can access Minecraft using the [$external_ip] server IP address."
 echo "##########################################################################"
-
-echo "==================== All Done!! Wait for 3 minutes and access the minecraft! ===================="
-
-
-
-
