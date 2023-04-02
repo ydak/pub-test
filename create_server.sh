@@ -38,11 +38,12 @@ fi
 
 echo -n "Seed (Default: random): "
 read -r seed
-if [[ ! ("$seed" =~ ^[-0-9][0-9]+$) ]] || [ "$seed" != "" ]; then
-  echo "Enter correct number for seed."
-  exit 1
+if [ "$seed" != "" ]; then
+  if [[ ! ("$seed" =~ ^[-0-9][0-9]+$) ]]; then
+    echo "Enter correct number for seed."
+    exit 1
+  fi
 fi
-
 project_id=$(gcloud projects list --format="json" | jq -r '.[].projectId')
 project_num=$(gcloud projects list --format="json" | jq -r '.[].projectNumber')
 
