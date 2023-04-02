@@ -38,7 +38,7 @@ fi
 
 echo -n "Seed (Default: random): "
 read -r seed
-if [[ ! ("$seed" =~ ^[-0-9][0-9]+$) ]]; then
+if [[ ! ("$seed" =~ ^[-0-9][0-9]+$) ]] || [ "$seed" != "" ]; then
   echo "Enter correct number for seed."
   exit 1
 fi
