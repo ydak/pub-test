@@ -10,28 +10,28 @@ read -r server_name
 
 echo -n "Game mode (Default: survival) [survival or creative or adventure]: "
 read -r game_mode
-if [ "$game_mode" != "survival" ] && [ "$game_mode" != "creative" ] && [ "$game_mode" != "adventure" ]; then
+if [ "$game_mode" != "" ] && [ "$game_mode" != "survival" ] && [ "$game_mode" != "creative" ] && [ "$game_mode" != "adventure" ]; then
   echo "Enter correct game mode [survival] or [creative] or [adventure]."
   exit 1
 fi
 
 echo -n "Difficulty (Default: normal) [peaceful or easy or normal or hard]: "
 read -r difficulty
-if [ "$difficulty" != "peaceful" ] && [ "$difficulty" != "easy" ] && [ "$difficulty" != "normal" ] && [ "$difficulty" != "hard" ]; then
+if [ "$difficulty" != "" ] && [ "$difficulty" != "peaceful" ] && [ "$difficulty" != "easy" ] && [ "$difficulty" != "normal" ] && [ "$difficulty" != "hard" ]; then
   echo "Enter correct game mode [peaceful] or [easy] or [normal] or [hard]."
   exit 1
 fi
 
 echo -n "Allow cheat? (Default: false) [true or false]: "
 read -r allow_cheat
-if [ "$allow_cheat" != "true" ] && [ "$allow_cheat" != "false" ]; then
+if [ "$allow_cheat" != "" ] && [ "$allow_cheat" != "true" ] && [ "$allow_cheat" != "false" ]; then
   echo "Enter allow cheat [true] or [false]"
   exit 1
 fi
 
 echo -n "Default member permission (Default: member) [visitor or member or operator]: "
 read -r permission
-if [ "$permission" != "yes" ] && [ "$permission" != "no" ]; then
+if [ "$permission" != "" ] && [ "$permission" != "visitor" ] && [ "$permission" != "member" ] && [ "$permission" != "operator" ]; then
   echo "Enter correct permission [visitor] or [member] or [operator]"
   exit 1
 fi
